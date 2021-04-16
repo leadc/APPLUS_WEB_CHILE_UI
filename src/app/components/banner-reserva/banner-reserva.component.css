@@ -1,0 +1,31 @@
+.banner-reserva {
+    display: flex;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('../../../assets/images/banner_reserva.jpg');
+    font-family: Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+}
+
+.banner-reserva>div:first-child {
+    background-color: rgba(252, 101, 0.5, 0.5);
+    width: 100%;
+    min-height: 420px;
+}
+
+.banner-reserva>div>div:first-child {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 172px;
+}
+
+.banner-reserva h1 {
+    font-size: 3.5rem;
+}
+
+.banner-reserva h2 {
+    color: #FFFFFF;
+    font-size: 2rem;
+}
