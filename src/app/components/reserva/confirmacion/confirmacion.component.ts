@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Reserva, ReservaService } from '../../../services/reserva.service';
 
 @Component({
   selector: 'app-confirmacion',
   templateUrl: './confirmacion.component.html',
   styleUrls: ['./confirmacion.component.css']
 })
-export class ConfirmacionComponent implements OnInit {
+export class ConfirmacionComponent {
 
-  constructor() { }
+  public reserva: Reserva;
 
-  ngOnInit(): void {
+  constructor(private reservaService: ReservaService) {
+    this.reserva = this.reservaService.reserva;
   }
 
 }
