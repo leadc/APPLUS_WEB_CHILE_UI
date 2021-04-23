@@ -5,4 +5,19 @@
     padding: 0;
     margin: 0;
     font-size: 14px;
+    font-family: Helvetica, sans-serif;
+    color: #373B4D;
+}
+
+.titulo-paso-reserva {
+    color: #FC6500;
+    font-weight: bold;
+}
+
+.button-orange {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    background-color: #FC6500;
+    min-width: 169px;
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Reserva, ReservaService } from '../../../services/reserva.service';
+import { ReservaService } from '../../../services/reserva.service';
+import { Reserva } from '../../../models/reserva.model';
 
 @Component({
   selector: 'app-confirmacion',

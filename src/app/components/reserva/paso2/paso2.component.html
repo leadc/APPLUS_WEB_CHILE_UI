@@ -1,2 +1,116 @@
-<p>paso2 works!</p>
-<button (click)="this.nextStep()">Siguiente</button>
+<div class="container pt-3">
+    <div class="row">
+        <div class="col-12">
+            <img src="../../../../assets/images/PRT_Logo.png" alt="Logo PRT" class="float-right">
+            <h2 class="titulo-paso-reserva mb-4">Paso Nro 2.</h2>
+            <p>Selecciona el Día y Horario para tu Revisión Técnica:</p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" *ngIf="this.cargando">
+        <div class="col-12 text-center" style="min-height: 40vh; display: flex; justify-content: center; align-items: center;">
+            <div class="spinner-border text-dark" role="status">
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="this.error">
+        <div class="col-12 text-center" style="min-height: 40vh; display: flex; justify-content: center; align-items: center;">
+            <div class="alert alert-danger" role="alert">
+                {{ this.error }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="!this.error && !this.cargando">
+    <!-- Selector de fechas -->
+    <div class="row text-center">
+        <div class="col-12">
+            <span>Seleccione el día</span>
+        </div>
+        <div class="col-12" *ngIf="this.mesActual">
+            <svg (click)="this.mesAnterior()" class="left-arrow" preserveAspectRatio="none" data-bbox="60 20 80 160" viewBox="60 20 80 160" height="200" width="200" xmlns="http://www.w3.org/2000/svg" data-type="shape" role="img">
+                <g>
+                    <path d="M140 58.395l-37.001-37.146a4.232 4.232 0 0 0-6.003 0L60 58.395l6.003 6.028 29.099-29.216V180h9.796V35.209l29.099 29.212L140 58.395z"></path>
+                </g>
+            </svg>
+            <span class="font-weight-bold" style="font-size: 1.5rem"> {{ this.mesActual }}</span>
+            <svg (click)="this.mesSiguiente()" class="right-arrow" preserveAspectRatio="none" data-bbox="60 20 80 160" viewBox="60 20 80 160" height="200" width="200" xmlns="http://www.w3.org/2000/svg" data-type="shape" role="img">
+                <g>
+                    <path d="M140 58.395l-37.001-37.146a4.232 4.232 0 0 0-6.003 0L60 58.395l6.003 6.028 29.099-29.216V180h9.796V35.209l29.099 29.212L140 58.395z"></path>
+                </g>
+            </svg>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
+            <div class="container p-0">
+                <div class="row">
+                    <div class="col-4 col-sm-3 col-md-2 text-center" *ngFor="let fecha of this.renderFechas">
+                        <button class="disp-button p-2 my-1 mr-1 rounded unselectable" [ngClass]="{
+                            'unabled-disp-button': !fecha.disponible,
+                            'enabled-disp-button': fecha.disponible,
+                            'selected-disp-button': fecha.val === this.reserva.fecha
+                        }" (click)="this.seleccionarFecha(fecha.val)" [disabled]="!fecha.disponible">
+                            {{ fecha.val | date:'dd/MM/yyyy'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Selector de horas -->
+    <div class="row text-center mt-4">
+        <div class="col-12">
+            <span>Seleccione el horario</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 m-auto">
+            <div class="container p-0">
+                <div class="row">
+                    <div class="col-3 col-sm-3 col-md-2 col-lg-1 text-center" *ngFor="let hora of this.renderHoras">
+                        <button class="disp-button p-1 mt-1 mr-1 rounded unselectable" [ngClass]="{
+                            'unabled-disp-button': !hora.disponible,
+                            'enabled-disp-button': hora.disponible,
+                            'selected-disp-button': hora.val === this.reserva.hora
+                        }" (click)="this.seleccionarHora(hora.val)" [disabled]="!hora.disponible">
+                            {{ hora.val }}
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <div class="alert alert-danger" role="alert" *ngIf="this.validacion">
+                            {{ this.validacion }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Resumen de selección -->
+<div class="container pb-3" *ngIf="!this.error && !this.cargando">
+    <div class="row">
+        <div class="col-12 col-xs-6 col-sm-4 mr-auto ml-auto text-center mt-4">
+            <div>
+                <span style="color: #FC6500">
+                    RESEMEN DE TU SELECCIÓN
+                </span>
+            </div>
+            <div>
+                <span>Día: <span class="font-weight-bold">{{ this.reserva.fecha ? this.getDiaResumen() : 'No seleccionado' }}</span></span>
+            </div>
+            <div>
+                <span>Hora: <span class="font-weight-bold">{{ this.reserva.hora ? this.reserva.hora + 'Hs.' : 'No seleccionada' }} </span></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center mt-3 pb-3">
+            <button (click)="this.nextStep()" class="button-orange">Siguiente</button>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Reserva, ReservaService } from '../../../services/reserva.service';
+import { Reserva } from 'src/app/models/reserva.model';
+import { ReservaService } from '../../../services/reserva.service';
 
 @Component({
   selector: 'app-paso1',
