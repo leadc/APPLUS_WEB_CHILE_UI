@@ -15,6 +15,8 @@ export class ReservaService implements OnDestroy {
   public reserva: Reserva = new Reserva();
   /** Datos para la busqueda de disponibilidad */
   public busquedaDisponibilidad: BusquedaDeDisponibilidad = new BusquedaDeDisponibilidad();
+  /** Datos de plantas */
+  private plantas: any[];
   /** Ruta actual donde se encuentra el navegador (sin incluir el dominio) */
   private currentRoute = '';
   /** Subscripción a los cambios de la ruta (Se usa para destruir la subscripción en caso de que este objeto ya no sea necesario) */
@@ -83,5 +85,36 @@ export class ReservaService implements OnDestroy {
         this.route.navigate([this.FLOW_STEPS[i+1]]);
       }
     });
+  }
+
+  /**
+   * Devuelve un string de la fecha actual para el resumen
+   */
+  public getFechaString(){
+    const meses = ['Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+    const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const diaDate = new Date(this.reserva.fecha + ' 00:00:00');
+    return dias[diaDate.getDay()] + ' ' + diaDate.getDate() + ' de ' + meses[diaDate.getMonth()] + ' de ' + diaDate.getFullYear();
+  }
+
+  /**
+   * Devuelve la hora en formato HH:MM string
+   * @param date Fecha de la que obtener la hora
+   */
+   public getHoraString(dateObj: Date = null){
+    const date = dateObj || new Date(this.reserva.fecha + ' ' + this.reserva.hora + ':00');
+    var hh = date.getHours();
+    var mm = date.getMinutes();
+    return [
+        (hh>9 ? '' : '0') + hh,
+        (mm>9 ? '' : '0') + mm
+      ].join(':');
+  }
+
+  /**
+   * Devuleve la descripción del centro
+   */
+  public getPlantaString(){
+    return this.reserva.descripcionPlanta;
   }
 }

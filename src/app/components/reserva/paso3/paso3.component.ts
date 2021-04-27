@@ -10,9 +10,12 @@ import { Reserva } from '../../../models/reserva.model';
 export class Paso3Component {
 
   public reserva: Reserva;
+  public valor: any = -1;
 
   constructor(private reservaService: ReservaService) {
     this.reserva = this.reservaService.reserva;
+    this.reserva.idComoNosConocio = this.reserva.idComoNosConocio || '-1';
+    this.reserva.idComuna = this.reserva.idComuna || '-1';
   }
 
   /**
@@ -21,5 +24,17 @@ export class Paso3Component {
    */
   public nextStep(){
     this.reservaService.nextStep();
+  }
+
+  public getFechaString(){
+    return this.reservaService.getFechaString();
+  }
+
+  public getHoraString(){
+    return this.reservaService.getHoraString();
+  }
+
+  public getPlantaString(){
+    return this.reservaService.getPlantaString();
   }
 }

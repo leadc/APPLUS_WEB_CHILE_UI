@@ -130,10 +130,7 @@ export class Paso2Component implements OnInit {
    * Devuelve un string de la fecha actual para el resumen
    */
   public getDiaResumen(){
-    const meses = ['Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
-    const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const diaDate = new Date(this.reserva.fecha + ' 00:00:00');
-    return dias[diaDate.getDay()] + ' ' + diaDate.getDate() + ' de ' + meses[diaDate.getMonth()] + ' de ' + diaDate.getFullYear();
+    return this.reservaService.getFechaString();
   }
 
   /**
@@ -141,12 +138,7 @@ export class Paso2Component implements OnInit {
    * @param date Fecha de la que obtener la hora
    */
   private getHoraString(date: Date){
-    var hh = date.getHours();
-    var mm = date.getMinutes();
-    return [
-        (hh>9 ? '' : '0') + hh,
-        (mm>9 ? '' : '0') + mm
-      ].join(':');
+    return this.reservaService.getHoraString(date);
   }
 
   /**

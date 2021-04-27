@@ -1,2 +1,70 @@
-<p>paso3 works!</p>
+<div class="container py-3">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="titulo-paso-reserva mb-4">Paso Nro 3.</h2>
+            <p>Completa el formulario con tus datos.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-8 col-lg-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" aria-describedby="Patente" placeholder="Placa patente" style="width: 40%; min-width: 185px;">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Nombre" aria-describedby="Nombre">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Apellido" aria-describedby="Apellido">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="RUT" aria-describedby="RUT">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Teléfono Celular (56-9-12345678)" aria-describedby="Teléfono Celular">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Correo electrónico" aria-describedby="Correo electrónico">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Confirmación de correo electrónico" aria-describedby="Confirmación de correo electrónico">
+                        </div>
+                        <div class="mb-3">
+                            <app-select-input [(ngModel)]="this.reserva.idComoNosConocio" title="¿Cómo conoces a Applus+PRT?" aria-describedby="¿Cómo conoces a Applus+PRT?">
+                                <option value="-1" hidden selected>¿Cómo conoces a Applus+PRT?</option>
+                            </app-select-input>
+                        </div>
+                        <div class="mb-3">
+                            <app-select-input [(ngModel)]="this.reserva.idComuna" title="¿En qué comuna vives?" aria-describedby="¿En qué comuna vives?">
+                                <option value="-1" hidden selected>¿En qué comuna vives?</option>
+                                <option value="3">Comuna 1</option>
+                                <option value="4">Comuna 2</option>
+                            </app-select-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4 col-lg-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 d-flex flex-column mb-4 pb-4 border-bottom">
+                        <span class="titulo-paso-reserva mb-4">DATOS DE TU RESERVA</span>
+                        <span>Día: <span class="font-weight-bold">{{ this.getFechaString() }}</span></span>
+                        <span>Horario: <span class="font-weight-bold">{{ this.getHoraString() }}</span></span>
+                        <span>Centro: <span class="font-weight-bold"></span></span>
+                    </div>
+                    <hr>
+                    <div class="col-12 d-flex flex-column">
+                        <span class="titulo-paso-reserva mb-2">IMPORTANTE</span>
+                        <p>Recuerda que los <span style="color: #FC6500; text-decoration: underline;">datos de contacto deben ser reales</span> para que puedas recibir la documentación correspondiente a tu Revisión Técnica.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 <button (click)="this.nextStep()">Siguiente</button>

@@ -13,6 +13,7 @@ import { Paso2Component } from './components/reserva/paso2/paso2.component';
 import { Paso3Component } from './components/reserva/paso3/paso3.component';
 import { Paso4Component } from './components/reserva/paso4/paso4.component';
 import { ConfirmacionComponent } from './components/reserva/confirmacion/confirmacion.component';
+import { SelectInputComponent } from './components/applus-shared/select-input/select-input.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ConfirmacionComponent } from './components/reserva/confirmacion/confirm
     Paso2Component,
     Paso3Component,
     Paso4Component,
-    ConfirmacionComponent
+    ConfirmacionComponent,
+    SelectInputComponent
   ],
   imports: [
     BrowserModule,

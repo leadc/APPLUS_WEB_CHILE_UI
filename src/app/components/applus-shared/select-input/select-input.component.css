@@ -1,0 +1,23 @@
+.applus-form-select-container {
+    cursor: pointer;
+}
+
+.applus-form-select {
+    appearance: none;
+    cursor: pointer;
+}
+
+.select-chevron-down {
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.select-chevron-down svg {
+    fill: #FC6500;
+    opacity: 0.5;
+}
+
+.fill-orange {}
