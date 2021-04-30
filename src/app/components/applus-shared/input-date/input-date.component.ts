@@ -1,0 +1,60 @@
+import { Component, EventEmitter, forwardRef, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+export const CUSTOM_SELECT_CONTROL_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => InputDateComponent),
+  multi: true
+};
+
+@Component({
+  selector: 'app-input-date',
+  templateUrl: './input-date.component.html',
+  styleUrls: ['./input-date.component.css'],
+  providers: [CUSTOM_SELECT_CONTROL_VALUE_ACCESSOR]
+})
+export class InputDateComponent implements ControlValueAccessor{
+
+  @Output() change: EventEmitter<any> = new EventEmitter<any>();
+  private innerValue: any;
+  public disabled = false;
+
+  private onTouchedCallback: () => void = () => {};
+  private onChangeCallback: (_: any) => void = (_: any) => {};
+
+  constructor() { }
+
+  set value(val: any){
+    if (val !== this.innerValue){
+      this.innerValue = val;
+      this.onChangeCallback(val);
+    }
+  }
+
+  get value(){
+    return this.innerValue;
+  }
+
+  onBlur() {
+    this.onTouchedCallback();
+  }
+
+  writeValue(obj: any): void {
+    if (obj !== this.innerValue){
+      this.innerValue = obj;
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChangeCallback = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouchedCallback = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+}
