@@ -51,10 +51,11 @@ export class Reserva{
     centro: string;
   
     constructor(data?: any){
+      this.centro = '-1';
       if (data) { 
-        this.fechaDesde = data?.fechaDesde;
-        this.fechaHasta = data?.fechaHasta;
-        this.centro = data?.centro;
+        this.fechaDesde = data.fechaDesde;
+        this.fechaHasta = data.fechaHasta;
+        this.centro = data.centro || '-1';
       }
     }
   }

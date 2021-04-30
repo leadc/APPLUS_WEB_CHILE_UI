@@ -1,2 +1,65 @@
-<p>paso1 works!</p>
-<button (click)="this.nextStep()">Siguiente</button>
+<div class="container pt-3">
+    <div class="row">
+        <div class="col-12">
+            <img src="../../../../assets/images/PRT_Logo.png" alt="Logo PRT" class="float-right">
+            <h2 class="titulo-paso-reserva mb-4">Paso Nro 1.</h2>
+            <p>Selecciona la Región adonde te encuentras:</p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row ">
+        <!-- Formulario -->
+        <div class="col-12 col-sm-6 mb-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <app-select-input [(ngModel)]="this.reserva.idComoNosConocio" title="¿Cómo conoces a Applus+PRT?" aria-describedby="¿Cómo conoces a Applus+PRT?">
+                            <option value="-1" hidden selected>Selecciona tu Región</option>
+                        </app-select-input>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <app-select-input [(ngModel)]="this.busqueda.centro" title="¿Cómo conoces a Applus+PRT?" aria-describedby="¿Cómo conoces a Applus+PRT?">
+                            <option value="-1" hidden selected>Planta PRT</option>
+                        </app-select-input>
+                    </div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <app-input-date [(ngModel)]="this.busqueda.fechaDesde" title="Fecha desde"></app-input-date>
+                    </div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <app-input-date [(ngModel)]="this.busqueda.fechaHasta" title="Fecha hasta"></app-input-date>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Logo -->
+        <div class="col-12 col-sm-6 ">
+            <h4 class="titulo-paso-reserva mb-4 ">Importante</h4>
+            <p>Los vehículos 4x4 permanentes solo deben tomar turnos en las plantas de:</p>
+            <ul class="pl-4 ">
+                <li>Región Metropolitana:
+                    <span class="fc-orange">QUINTA NORMAL</span> y <span class="fc-orange">SAN JOAQUIN.</span>
+                </li>
+                <li>Región Quinta:
+                    <span class="fc-orange">SAN ANTONIO. </span>
+                </li>
+                <li>Región Novena:
+                    <span class="fc-orange">TEMUCO</span> y <span class="fc-orange">VICTORIA.</span>
+                </li>
+            </ul>
+            <p>SI VAS A RESERVAR <span class="text-underline">UNA HORA PARA UN VEHÍCULO RECHAZADO, </span>
+                <span class="fc-orange">DEBERAS HACERLO EN LA MISMA PLANTA DONDE FUÉ ANTENDIDO LA PRIMERA VEZ.</span></p>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-12 ">
+            <div class="container ">
+                <div class="row ">
+                    <div class="col-12 text-center text-sm-left mt-3 pb-3 ">
+                        <button (click)="this.nextStep() " class="button-orange ">Siguiente</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

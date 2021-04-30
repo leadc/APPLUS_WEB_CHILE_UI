@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Reserva } from 'src/app/models/reserva.model';
+import { Reserva, BusquedaDeDisponibilidad } from 'src/app/models/reserva.model';
 import { ReservaService } from '../../../services/reserva.service';
 
 @Component({
@@ -10,9 +10,11 @@ import { ReservaService } from '../../../services/reserva.service';
 export class Paso1Component {
 
   public reserva: Reserva;
+  public busqueda: BusquedaDeDisponibilidad;
 
   constructor(private reservaService: ReservaService) {
     this.reserva = this.reservaService.reserva;
+    this.busqueda = this.reservaService.busquedaDisponibilidad;
   }
 
   /**
@@ -21,5 +23,9 @@ export class Paso1Component {
    */
   public nextStep(){
     this.reservaService.nextStep();
+  }
+
+  ver(fecha: string){
+    console.log("FECHA ES: " + fecha);
   }
 }

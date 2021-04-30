@@ -7,6 +7,10 @@
     cursor: pointer;
 }
 
+.applus-form-select:hover {
+    background-color: rgba(26, 45, 243, .2);
+}
+
 .select-chevron-down {
     position: absolute;
     width: 3%;
@@ -19,5 +23,3 @@
     fill: #FC6500;
     opacity: 0.5;
 }
-
-.fill-orange {}

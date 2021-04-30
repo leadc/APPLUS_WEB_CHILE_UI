@@ -21,3 +21,11 @@
     background-color: #FC6500;
     min-width: 169px;
 }
+
+.fc-orange {
+    color: #FC6500;
+}
+
+.text-underline {
+    text-decoration: underline;
+}

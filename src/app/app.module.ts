@@ -14,6 +14,7 @@ import { Paso3Component } from './components/reserva/paso3/paso3.component';
 import { Paso4Component } from './components/reserva/paso4/paso4.component';
 import { ConfirmacionComponent } from './components/reserva/confirmacion/confirmacion.component';
 import { SelectInputComponent } from './components/applus-shared/select-input/select-input.component';
+import { InputDateComponent } from './components/applus-shared/input-date/input-date.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SelectInputComponent } from './components/applus-shared/select-input/se
     Paso3Component,
     Paso4Component,
     ConfirmacionComponent,
-    SelectInputComponent
+    SelectInputComponent,
+    InputDateComponent
   ],
   imports: [
     BrowserModule,

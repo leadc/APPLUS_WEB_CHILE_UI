@@ -1,0 +1,18 @@
+.card-header {
+    background-color: white;
+}
+
+.subtitulo {
+    font-family: helvetica-w01-light, helvetica-w02-light, sans-serif;
+    font-size: 17px;
+    color: #373b4dad;
+    margin-bottom: 20px;
+}
+
+.form-body {
+    /*  background-color: #a6a6a626; */
+    padding: 0px 45px 0px 22px;
+    height: 50px;
+    width: 470px;
+    border-radius: 7px;
+}
