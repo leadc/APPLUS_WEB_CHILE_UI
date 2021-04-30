@@ -47,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4 col-lg-6">
+        <div class="col-12 col-sm-4 col-lg-6 mt-3 mt-sm-0">
             <div class="container">
                 <div class="row">
                     <div class="col-12 d-flex flex-column mb-4 pb-4 border-bottom">
@@ -65,6 +65,20 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-12 col-sm-8 col-lg-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-left mt-3 pb-3">
+                        <re-captcha (resolved)="this.resolved($event)" siteKey="6Ld3vTkUAAAAACpYkssfCPqlAieFa1qMpZ6t-qYG"></re-captcha>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-left mt-3 pb-3">
+                        <button (click)="this.nextStep()" class="button-orange">Siguiente</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<button (click)="this.nextStep()">Siguiente</button>
