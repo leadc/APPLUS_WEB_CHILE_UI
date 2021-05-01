@@ -9,6 +9,46 @@
     color: #373B4D;
 }
 
+
+/** SVG Icons style */
+
+.svg-icon {
+    width: 1em;
+    height: 1em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+    fill: #FC6500;
+}
+
+.svg-icon circle {
+    stroke: #FC6500;
+    stroke-width: 1;
+}
+
+
+/* Cursor */
+
+.pointer {
+    cursor: pointer;
+}
+
+
+/* Backgrouns */
+
+.bg-orange {
+    background-color: #FC6500;
+}
+
+
+/* Borders */
+
+.border-orange {
+    border-color: #FC6500;
+}
+
 .titulo-paso-reserva {
     color: #FC6500;
     font-weight: bold;

@@ -1,0 +1,39 @@
+.input-date-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
+
+.input-date-selection {
+    width: 14rem;
+    position: absolute;
+    z-index: 2;
+    top: 105%;
+    box-sizing: content-box;
+}
+
+.selection-option {
+    box-sizing: content-box;
+}
+
+.selected-option {
+    background-color: #FC6500;
+}
+
+.selection-option:hover {
+    cursor: pointer;
+    background-color: rgba(26, 45, 243, .2);
+}
+
+.selection-box {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    width: 2rem;
+    box-sizing: border-box;
+}

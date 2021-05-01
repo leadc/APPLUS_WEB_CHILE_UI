@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEsAr from '@angular/common/locales/es-AR';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +18,8 @@ import { Paso4Component } from './components/reserva/paso4/paso4.component';
 import { ConfirmacionComponent } from './components/reserva/confirmacion/confirmacion.component';
 import { SelectInputComponent } from './components/applus-shared/select-input/select-input.component';
 import { InputDateComponent } from './components/applus-shared/input-date/input-date.component';
+
+registerLocaleData(localeEsAr, 'es-Ar');
 
 @NgModule({
   declarations: [
@@ -38,6 +42,7 @@ import { InputDateComponent } from './components/applus-shared/input-date/input-
     RecaptchaModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'es-Ar' },
     HttpClient
   ],
   bootstrap: [AppComponent]

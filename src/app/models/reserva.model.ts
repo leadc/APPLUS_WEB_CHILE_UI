@@ -1,4 +1,3 @@
-
 export class Reserva{
     id: number;
     idPlanta: number;
@@ -46,15 +45,16 @@ export class Reserva{
   }
   
   export class BusquedaDeDisponibilidad{
-    fechaDesde: string;
-    fechaHasta: string;
+    fechaDesde: Date;
+    fechaHasta: Date;
     centro: string;
+    region: string;
   
     constructor(data?: any){
       this.centro = '-1';
       if (data) { 
-        this.fechaDesde = data.fechaDesde;
-        this.fechaHasta = data.fechaHasta;
+        this.fechaDesde = new Date(data.fechaDesde);
+        this.fechaHasta = new Date(data.fechaHasta);
         this.centro = data.centro || '-1';
       }
     }
