@@ -34,7 +34,6 @@ export class InputDateComponent implements ControlValueAccessor{
 
   @HostListener('document:click', ['$event'])
   clickOut(event) {
-    console.log("listener");
     if(!this.calendarContainer.nativeElement.contains(event.target)) {
       this.showCalendar = false;
     }

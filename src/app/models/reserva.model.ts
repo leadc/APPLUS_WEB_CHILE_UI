@@ -2,6 +2,7 @@ export class Reserva{
     id: number;
     idPlanta: number;
     descripcionPlanta: string;
+    observacionPlanta: string;
     fecha: string;
     hora: string;
     patente: string;
@@ -45,17 +46,31 @@ export class Reserva{
   }
   
   export class BusquedaDeDisponibilidad{
-    fechaDesde: Date;
-    fechaHasta: Date;
     centro: string;
     region: string;
   
     constructor(data?: any){
       this.centro = '-1';
-      if (data) { 
-        this.fechaDesde = new Date(data.fechaDesde);
-        this.fechaHasta = new Date(data.fechaHasta);
+      this.region = '-1';
+      if (data) {
         this.centro = data.centro || '-1';
+        this.region = data.region || '-1';
       }
     }
+  }
+
+  export class DataForm1{
+    regiones: Region[];
+  }
+
+  export class Region{
+    id: number;
+    nombre: string;
+    plantas: Planta[];
+  }
+
+  export class Planta{
+    id: number;
+    nombre: string;
+    observacion: string;
   }

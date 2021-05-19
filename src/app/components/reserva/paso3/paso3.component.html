@@ -54,7 +54,7 @@
                         <span class="titulo-paso-reserva mb-4">DATOS DE TU RESERVA</span>
                         <span>Día: <span class="font-weight-bold">{{ this.getFechaString() }}</span></span>
                         <span>Horario: <span class="font-weight-bold">{{ this.getHoraString() }}</span></span>
-                        <span>Centro: <span class="font-weight-bold"></span></span>
+                        <span>Centro: <span class="font-weight-bold">{{ this.reserva.descripcionPlanta | titlecase }}</span></span>
                     </div>
                     <hr>
                     <div class="col-12 d-flex flex-column">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 text-left mt-3 pb-3">
-                        <button (click)="this.nextStep()" class="button-orange">Siguiente</button>
+                        <button (click)="this.nextStep()" class="button-orange">Confirmar reserva</button>
                     </div>
                 </div>
             </div>

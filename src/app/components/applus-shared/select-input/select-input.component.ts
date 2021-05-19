@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export const CUSTOM_SELECT_CONTROL_VALUE_ACCESSOR: any = {
@@ -17,6 +17,8 @@ export const CUSTOM_SELECT_CONTROL_VALUE_ACCESSOR: any = {
 export class SelectInputComponent implements ControlValueAccessor{
 
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
+  @Input() label: string;
+  @Input() id: string;
   private innerValue: any;
   public disabled = false;
 

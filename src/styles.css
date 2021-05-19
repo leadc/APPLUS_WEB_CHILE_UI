@@ -62,6 +62,11 @@
     min-width: 169px;
 }
 
+.btn-disabled {
+    cursor: unset;
+    background-color: #CED4DA;
+}
+
 .fc-orange {
     color: #FC6500;
 }

@@ -18,6 +18,7 @@ import { Paso4Component } from './components/reserva/paso4/paso4.component';
 import { ConfirmacionComponent } from './components/reserva/confirmacion/confirmacion.component';
 import { SelectInputComponent } from './components/applus-shared/select-input/select-input.component';
 import { InputDateComponent } from './components/applus-shared/input-date/input-date.component';
+import { PreloaderContainerComponent } from './components/applus-shared/preloader-container/preloader-container.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 
@@ -32,7 +33,8 @@ registerLocaleData(localeEsAr, 'es-Ar');
     Paso4Component,
     ConfirmacionComponent,
     SelectInputComponent,
-    InputDateComponent
+    InputDateComponent,
+    PreloaderContainerComponent
   ],
   imports: [
     BrowserModule,

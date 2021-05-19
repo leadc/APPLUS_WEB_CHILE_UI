@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { first, map } from 'rxjs/operators'
 import { Reserva, BusquedaDeDisponibilidad } from '../models/reserva.model';
 import { ApiService, ApiResponse } from './api.service';
 
@@ -15,8 +15,6 @@ export class ReservaService implements OnDestroy {
   public reserva: Reserva = new Reserva();
   /** Datos para la busqueda de disponibilidad */
   public busquedaDisponibilidad: BusquedaDeDisponibilidad = new BusquedaDeDisponibilidad();
-  /** Datos de plantas */
-  private plantas: any[];
   /** Ruta actual donde se encuentra el navegador (sin incluir el dominio) */
   private currentRoute = '';
   /** Subscripción a los cambios de la ruta (Se usa para destruir la subscripción en caso de que este objeto ya no sea necesario) */
@@ -26,7 +24,7 @@ export class ReservaService implements OnDestroy {
     '',
     '/fecha_y_hora',
     '/datos_reserva',
-    '/medio_de_pago',
+    // '/medio_de_pago',
     '/confirmacion'
   ];
 
@@ -36,7 +34,7 @@ export class ReservaService implements OnDestroy {
       // Cada vez que cambie la ruta se actualizará el valor de 
       // la variable currentRoute para determinar en qué paso estamos
       this.routeSubscription = this.route.events.subscribe(() => {
-          this.currentRoute = location.path();
+          this.currentRoute = this.location.path();
       });
       // Obtengo la reserva previa desde el session storage si es que existe
       // Esto sirve para que si el cliente hace un refresh de la página sin cerrar el navegador
@@ -68,6 +66,20 @@ export class ReservaService implements OnDestroy {
    */
   ngOnDestroy(){
     this.routeSubscription && this.routeSubscription.unsubscribe();
+  }
+
+  /**
+   * Obtiene los datos necesarios para el form del paso 1
+   * @returns Observable de los datos necesarios para el form del paso 1
+   */
+  public getDataFormPaso1(){
+    return this.api.get('reservas/obtenerDataPaso1', null).pipe(
+      map(
+        (resp: ApiResponse) => {
+          return resp.data ? resp.data : resp;
+        }
+      )
+    );
   }
 
   /**
@@ -115,6 +127,6 @@ export class ReservaService implements OnDestroy {
    * Devuleve la descripción del centro
    */
   public getPlantaString(){
-    return this.reserva.descripcionPlanta;
+    
   }
 }

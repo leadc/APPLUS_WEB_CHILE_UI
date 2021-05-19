@@ -1,20 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Reserva, BusquedaDeDisponibilidad } from 'src/app/models/reserva.model';
 import { ReservaService } from '../../../services/reserva.service';
+import { DataForm1, Planta, Region } from '../../../models/reserva.model';
 
 @Component({
   selector: 'app-paso1',
   templateUrl: './paso1.component.html',
   styleUrls: ['./paso1.component.css']
 })
-export class Paso1Component {
+export class Paso1Component implements OnInit {
 
   public reserva: Reserva;
   public busqueda: BusquedaDeDisponibilidad;
+  public regiones: Region[] = [];
+  public plantasList: Planta[] = [];
 
   constructor(private reservaService: ReservaService) {
     this.reserva = this.reservaService.reserva;
     this.busqueda = this.reservaService.busquedaDisponibilidad;
+  }
+  
+  ngOnInit() {
+    this.reservaService.getDataFormPaso1().subscribe({
+      next: (data: DataForm1) => {
+        this.regiones = data.regiones;
+      },
+      error: (resp) => {
+        console.log(resp)
+      }
+    });
   }
 
   /**
@@ -22,10 +36,28 @@ export class Paso1Component {
    * siguiente paso de la reserva
    */
   public nextStep(){
-    this.reservaService.nextStep();
+    this.reserva.idPlanta && this.reservaService.nextStep();
   }
 
-  ver(fecha: string){
-    console.log("FECHA ES: " + fecha);
+  public seleccionarRegion(){
+    this.busqueda.centro = '-1';
+    this.reserva.idPlanta = null;
+    this.reserva.descripcionPlanta = null;
+    this.reserva.observacionPlanta = null;
+    this.regiones.forEach((region) => {
+      if (this.busqueda.region === region.id.toString()) {
+        this.plantasList = region.plantas;
+      }
+    });
+  }
+
+  public seleccionarPlanta(){
+    this.plantasList.forEach((planta) => {
+      if (this.busqueda.centro === planta.id.toString()) {
+        this.reserva.idPlanta = planta.id;
+        this.reserva.descripcionPlanta = planta.nombre;
+        this.reserva.observacionPlanta = planta.observacion;
+      }
+    });
   }
 }

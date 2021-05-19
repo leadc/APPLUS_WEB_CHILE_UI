@@ -1,5 +1,6 @@
 <div class="position-relative applus-form-select-container">
-    <select class="form-control form-select applus-form-select" [disabled]="this.disabled" [(ngModel)]="this.value" (blur)="onBlur()" aria-describedby="¿En qué comuna vives?" #selectInput>
+    <label [for]="this.id" hidden>{{ this.label }}</label>
+    <select class="form-control form-select applus-form-select" [id]="this.id" [disabled]="this.disabled" [(ngModel)]="this.value" (blur)="onBlur()" [title]="this.label" #selectInput>
         <ng-content></ng-content>
     </select>
     <div class="select-chevron-down">

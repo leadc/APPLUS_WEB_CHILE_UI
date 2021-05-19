@@ -24,6 +24,7 @@ export class Paso2Component implements OnInit {
   }
 
   ngOnInit(){
+    const date = new Date();
     this.reservaService.buscarDisponibilidad().subscribe({
       next: resp => {
         this.cargando = false;

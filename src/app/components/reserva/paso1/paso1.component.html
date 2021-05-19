@@ -14,20 +14,16 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <app-select-input [(ngModel)]="this.busqueda.region" title="¿Cómo conoces a Applus+PRT?" aria-describedby="¿Cómo conoces a Applus+PRT?">
+                        <app-select-input [(ngModel)]="this.busqueda.region" id="selectRegion" label="Selecciona tu Región" (ngModelChange)="this.seleccionarRegion()">
                             <option value="-1" hidden selected>Selecciona tu Región</option>
+                            <option *ngFor="let region of this.regiones" [value]="region.id">{{ region.nombre }}</option>
                         </app-select-input>
                     </div>
                     <div class="col-12 mb-3">
-                        <app-select-input [(ngModel)]="this.busqueda.centro" title="¿Cómo conoces a Applus+PRT?" aria-describedby="¿Cómo conoces a Applus+PRT?">
+                        <app-select-input [(ngModel)]="this.busqueda.centro" id="selectPlanta" label="Selecciona tu planta" (ngModelChange)="this.seleccionarPlanta()" [disabled]="!this.plantasList.length">
                             <option value="-1" hidden selected>Planta PRT</option>
+                            <option *ngFor="let planta of this.plantasList" [value]="planta.id">{{ planta.nombre }}</option>
                         </app-select-input>
-                    </div>
-                    <div class="col-12 col-md-6 mb-3">
-                        <app-input-date [(ngModel)]="this.busqueda.fechaDesde" title="Fecha desde" [placeHolder]="'Fecha desde'"></app-input-date>
-                    </div>
-                    <div class="col-12 col-md-6 mb-3">
-                        <app-input-date [(ngModel)]="this.busqueda.fechaHasta" title="Fecha hasta" [placeHolder]="'Fecha hasta'"></app-input-date>
                     </div>
                 </div>
             </div>
@@ -56,7 +52,7 @@
             <div class="container ">
                 <div class="row ">
                     <div class="col-12 text-center text-sm-left mt-3 pb-3 ">
-                        <button (click)="this.nextStep() " class="button-orange ">Siguiente</button>
+                        <button (click)="this.nextStep() " class="button-orange">Siguiente</button>
                     </div>
                 </div>
             </div>
