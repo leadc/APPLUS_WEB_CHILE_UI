@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
 import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { first, map } from 'rxjs/operators'
-import { Reserva, BusquedaDeDisponibilidad } from '../models/reserva.model';
+import { map } from 'rxjs/operators'
+import { Reserva, DataForm1 } from '../models/reserva.model';
 import { ApiService, ApiResponse } from './api.service';
 
 @Injectable({
@@ -13,8 +13,6 @@ export class ReservaService implements OnDestroy {
 
   /** Datos de la reserva del cliente */
   public reserva: Reserva = new Reserva();
-  /** Datos para la busqueda de disponibilidad */
-  public busquedaDisponibilidad: BusquedaDeDisponibilidad = new BusquedaDeDisponibilidad();
   /** Ruta actual donde se encuentra el navegador (sin incluir el dominio) */
   private currentRoute = '';
   /** Subscripción a los cambios de la ruta (Se usa para destruir la subscripción en caso de que este objeto ya no sea necesario) */
@@ -33,31 +31,11 @@ export class ReservaService implements OnDestroy {
       // Subscripción al observable de la ruta 
       // Cada vez que cambie la ruta se actualizará el valor de 
       // la variable currentRoute para determinar en qué paso estamos
-      this.routeSubscription = this.route.events.subscribe(() => {
+      this.routeSubscription = this.route.events.subscribe((event) => {
           this.currentRoute = this.location.path();
       });
-      // Obtengo la reserva previa desde el session storage si es que existe
-      // Esto sirve para que si el cliente hace un refresh de la página sin cerrar el navegador
-      // no pierda los datos ya ingresados
-      const reservaStorage = sessionStorage.getItem('reserva');
-      this.reserva = reservaStorage ? new Reserva(JSON.parse(reservaStorage)) : new Reserva();
-      const busqueda = sessionStorage.getItem('busqueda');
-      this.busquedaDisponibilidad = busqueda ? new BusquedaDeDisponibilidad(JSON.parse(busqueda)) : new BusquedaDeDisponibilidad();
+      this.getReservaDesdeStorage();
     }catch{}
-  }
-
-  /**
-   * Obtiene la disponibilidad de turnos para una planta y rango de fechas
-   * @returns Devuelve un observable de los resultados de la llamada a la API
-   */
-  buscarDisponibilidad(){
-    return this.api.get('reservas/obtenerDisponibilidad', this.busquedaDisponibilidad).pipe(
-      map(
-        (resp: ApiResponse) => {
-          return resp.data ? resp.data : resp;
-        }
-      )
-    );
   }
 
   /** 
@@ -66,6 +44,16 @@ export class ReservaService implements OnDestroy {
    */
   ngOnDestroy(){
     this.routeSubscription && this.routeSubscription.unsubscribe();
+  }
+
+  /**
+   * Obtengo la reserva previa desde el session storage si es que existe 
+   * Esto sirve para que si el cliente hace un refresh de la página sin cerrar el navegador 
+   * no pierda los datos ya ingresados
+   */
+  private getReservaDesdeStorage() {
+    const reservaStorage = sessionStorage.getItem('reserva');
+    this.reserva = reservaStorage ? new Reserva(JSON.parse(reservaStorage)) : new Reserva();
   }
 
   /**
@@ -83,6 +71,46 @@ export class ReservaService implements OnDestroy {
   }
 
   /**
+   * Obtiene la disponibilidad de turnos para un mes actual o la cantidad de meses en el futuro de mesOffset
+   * @param mesOffset cantidad de meses en el futuro para traer la disponibilidad
+   * @returns Devuelve un observable de los resultados de la llamada a la API
+   */
+  buscarDisponibilidad(mesesAdelantados = 0){
+    return this.api.get('reservas/obtenerDisponibilidad', {
+      centro: this.reserva.idPlanta,
+      mesesAdelantados
+    }).pipe(
+      map(
+        (resp: ApiResponse) => {
+          return resp.data ? resp.data : resp;
+        }
+      )
+    );
+  }
+
+  
+  /**
+   * Obtiene los datos necesarios para el form del paso 3
+   * @returns Observable de los datos necesarios para el form del paso 3
+   */
+   public getDataFormPaso3(){
+    return this.api.get('reservas/obtenerDataPaso3', null).pipe(
+      map(
+        (resp: ApiResponse) => {
+          return resp.data ? resp.data : resp;
+        }
+      )
+    );
+  }
+
+  public realizarReserva(tokenCaptcha: string){
+    return this.api.post('reservas/reservar', {
+      reserva: this.reserva,
+      captcha: tokenCaptcha
+    });
+  }
+
+  /**
    * Maneja los eventos de pasar al siguiente paso de la reserva 
    * guardando los datos actuales en session storage
    */
@@ -90,7 +118,6 @@ export class ReservaService implements OnDestroy {
     // Guardo los datos de la reserva en session storage
     // Se usa JSON.stringify para convertir la reserva en un JSON string
     sessionStorage.setItem('reserva', JSON.stringify(this.reserva));
-    sessionStorage.setItem('busqueda', JSON.stringify(this.busquedaDisponibilidad));
     // Recorro cada paso para evaluar en cuál estoy y navego al siguiente (si es que hay siguiente, sino no hago nada)
     this.FLOW_STEPS.forEach((value, i) => {
       if (value === this.currentRoute && this.FLOW_STEPS[i+1]) {
@@ -99,13 +126,41 @@ export class ReservaService implements OnDestroy {
     });
   }
 
+  
+  /**
+   * Maneja los eventos de pasar al anterior paso de la reserva 
+   */
+   public backStep(){
+    // Recorro cada paso para evaluar en cuál estoy y navego al siguiente (si es que hay siguiente, sino no hago nada)
+    this.FLOW_STEPS.forEach((value, i) => {
+      if (value === this.currentRoute && this.FLOW_STEPS[i-1]) {
+        this.route.navigate([this.FLOW_STEPS[i-1]]);
+      }
+    });
+  }
+
+  public finFlow(){
+    sessionStorage.clear();
+    this.reserva = new Reserva();
+  }
+
+  /**
+   * Reinicia el flujo del programa en caso de navegar a una ruta del paso 2, 3... 
+   * sin tener datos previos seleccionados
+   */
+  public resetFlow(){
+    sessionStorage.clear();
+    this.route.navigate([this.FLOW_STEPS[0]]);
+  }
+
   /**
    * Devuelve un string de la fecha actual para el resumen
    */
-  public getFechaString(){
-    const meses = ['Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+  public getFechaString(fecha = null){
+    fecha = fecha || this.reserva.fecha;
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const diaDate = new Date(this.reserva.fecha + ' 00:00:00');
+    const diaDate = new Date(fecha + ' 00:00:00');
     return dias[diaDate.getDay()] + ' ' + diaDate.getDate() + ' de ' + meses[diaDate.getMonth()] + ' de ' + diaDate.getFullYear();
   }
 
@@ -121,12 +176,5 @@ export class ReservaService implements OnDestroy {
         (hh>9 ? '' : '0') + hh,
         (mm>9 ? '' : '0') + mm
       ].join(':');
-  }
-
-  /**
-   * Devuleve la descripción del centro
-   */
-  public getPlantaString(){
-    
   }
 }

@@ -15,25 +15,39 @@ export class Paso2Component implements OnInit {
   public disponibilidad: Disponibilidad[] = [];
   public fechaActual = '';
   public mesActual = '';
+  public mesActualOffset = 0;
   public cargando = true;
   public error: string;
   public validacion: string;
 
   constructor(private reservaService: ReservaService) {
     this.reserva = this.reservaService.reserva;
+    if (!this.reserva.idPlanta) {
+      this.reservaService.resetFlow();
+    }
   }
 
   ngOnInit(){
-    const date = new Date();
-    this.reservaService.buscarDisponibilidad().subscribe({
+    this.solicitarDisponibilidadMes(0);
+  }
+  
+  /**
+   * Solicita la disponibilidad horaria para un mes en particular y la muestra en la vista
+   * @param agregarMes Numero de meses de offset a agregar
+   */
+  private solicitarDisponibilidadMes(agregarMes: number) {
+    this.mesActualOffset += agregarMes;
+    this.reserva.fecha = undefined;
+    this.reserva.hora = undefined;
+    this.cargando = true;
+    this.reservaService.buscarDisponibilidad(this.mesActualOffset).subscribe({
       next: resp => {
         this.cargando = false;
         this.procesarDisponibilidadDeFechas(resp.disponibilidad, resp.fechaActual);
       },
       error: resp => {
-        console.log(resp);
-        this.error = 'Se produjo un error al intentar obtener la disponibilidad, por favor vuelva a intentarlo luego.';
         this.cargando = false;
+        this.error = 'Se produjo un error al solicitar turnos disponibles';
       }
     });
   }
@@ -46,15 +60,14 @@ export class Paso2Component implements OnInit {
   private procesarDisponibilidadDeFechas(disponibilidad: Disponibilidad[], fechaActual: string){
     this.disponibilidad = disponibilidad;
     this.fechaActual = fechaActual;
-    const fechasDisponibles = [];
-    this.disponibilidad.forEach(disp => fechasDisponibles.push(disp.fecha));
+    const fechasDisponibles = this.disponibilidad.map(disp => disp.fecha);
 
     const fechaArray = this.fechaActual.split('-');
+    const primerDia = new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]) - 1, 1);
+    const ultimoDia = new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]), 0);
     const meses = ['Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
     this.mesActual = meses[parseInt(fechaArray[1])];
     this.mesActual += ' ' + fechaArray[0];
-    const primerDia = new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]) - 1, 1);
-    const ultimoDia = new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]), 0);
     this.renderFechas = [];
     while(ultimoDia.getTime() >= primerDia.getTime()){
       const fechaActualString = primerDia.toISOString().split('T')[0];
@@ -109,22 +122,26 @@ export class Paso2Component implements OnInit {
    * Renderiza los días del mes anterior
    */
   public mesAnterior(){
-    const fecha = new Date(this.fechaActual);
-    fecha.setMonth(fecha.getMonth()-1)
-    this.reserva.fecha = undefined;
-    this.reserva.hora = undefined;
-    this.procesarDisponibilidadDeFechas(this.disponibilidad, fecha.toISOString().split('T')[0]);
+    this.mesActualOffset > 0 && this.solicitarDisponibilidadMes(-1);
   }
 
   /**
    * Renderiza los días del mes siguiente
    */
   public mesSiguiente(){
-    const fecha = new Date(this.fechaActual);
-    fecha.setMonth(fecha.getMonth()+1)
-    this.reserva.fecha = undefined;
-    this.reserva.hora = undefined;
-    this.procesarDisponibilidadDeFechas(this.disponibilidad, fecha.toISOString().split('T')[0]);
+    this.mesActualOffset < 3 && this.solicitarDisponibilidadMes(1);
+  }
+
+  /** Devuelve un objeto date con el último día del mes para la fecha pasada por parámetro */
+  private getUltimoDiaDelMes(fecha: Date): string{
+    const fechaArray = fecha.toISOString().split('T')[0].split('-');
+    return new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]), 0).toISOString().split('T')[0];
+  }
+
+  /** Devuelve un objeto date con el primer día del mes para la fecha pasada por parámetro */
+  private getPrimerDiaDelMes(fecha: Date): string{
+    const fechaArray = fecha.toISOString().split('T')[0].split('-');
+    return new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]) - 1, 1).toISOString().split('T')[0];
   }
 
   /**

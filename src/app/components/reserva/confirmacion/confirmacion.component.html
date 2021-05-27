@@ -1,0 +1,40 @@
+<!-- Resumen de selección -->
+<div class="container py-3">
+    <div class="row mt-3">
+        <div class="col-12">
+            <img src="../../../../assets/images/PRT_Logo.png" alt="Logo PRT" class="float-right">
+            <h2 class="titulo-paso-reserva mb-4">Confirmación</h2>
+            <p>¡Confirmamos tu reserva con éxito!</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h5 class="fc-orange text-center my-3">
+                DATOS DE TU RESERVA
+            </h5>
+            <p>
+                Recuerde que para que su reserva sea válida, <span class="fc-orange">deberá llevar la impresión de la misma o el código de reserva</span>. Solicitamos presentarse en la planta de revisión con <span class="fc-orange">10 minutos de antelación al horario reservado</span>.
+                <br> Adicionalmente, le informamos que su turno será resguardado por espacio de 20 minutos desde el horario reservado en la fecha correspondiente, transcurrido este período de tiempo, el derecho a atención será anulado, perdiendo el derecho
+                a atención preferencial.
+            </p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-12 d-flex flex-column mb-4">
+            <span>Código: <span class="font-weight-bold">{{ this.reserva.codigo }}</span></span>
+            <span>Día: <span class="font-weight-bold">{{ this.getFechaString() }}</span></span>
+            <span>Horario: <span class="font-weight-bold">{{ this.getHoraString() }}</span></span>
+            <span>Centro: <span class="font-weight-bold">{{ this.reserva.descripcionPlanta | titlecase }}</span></span>
+            <span>Dirección: <span class="font-weight-bold">{{ this.reserva.observacionPlanta | titlecase }}</span></span>
+        </div>
+    </div>
+    <div class="row d-print-none">
+        <div class="col-12 text-center mt-3 pb-3">
+            <button (click)="this.print()" class="button-orange">IMPRIMIR CONFIRMACIÓN</button>
+        </div>
+        <div class="col-12 text-center mt-3">
+            <a href="javascript:window.location=window.location.origin" class="text-muted">Volver al HOME</a>
+        </div>
+
+    </div>
+</div>

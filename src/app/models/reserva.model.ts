@@ -14,6 +14,7 @@ export class Reserva{
     idComoNosConocio: string;
     idComuna: string;
     agregarAlCalendario: boolean;
+    codigo: string;
   
     constructor(data?: any){
       if (data) { 
@@ -31,6 +32,7 @@ export class Reserva{
         this.idComoNosConocio = data.idComoNosConocio;
         this.idComuna = data.idComuna;
         this.agregarAlCalendario = data.agregarAlCalendario;
+        this.codigo = data.codigo;
       }
     }
   }
@@ -44,19 +46,10 @@ export class Reserva{
     hora: string;
     cantidad: number;
   }
-  
-  export class BusquedaDeDisponibilidad{
-    centro: string;
-    region: string;
-  
-    constructor(data?: any){
-      this.centro = '-1';
-      this.region = '-1';
-      if (data) {
-        this.centro = data.centro || '-1';
-        this.region = data.region || '-1';
-      }
-    }
+
+  export class RespuestaDisponibilidad {
+    fechaActual: string;
+    disponibilidad: Disponibilidad[];
   }
 
   export class DataForm1{

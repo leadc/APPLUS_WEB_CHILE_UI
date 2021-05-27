@@ -26,6 +26,17 @@
                         </app-select-input>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <div class="alert alert-danger" role="alert" *ngIf="this.mensajesError.length">
+                            <ul *ngFor="let mensaje of this.mensajesError" class="pl-3 mb-0">
+                                <li>
+                                    {{ mensaje }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- Logo -->

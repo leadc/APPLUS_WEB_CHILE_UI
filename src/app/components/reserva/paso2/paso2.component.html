@@ -29,17 +29,22 @@
             <span>Seleccione el día</span>
         </div>
         <div class="col-12" *ngIf="this.mesActual">
-            <svg (click)="this.mesAnterior()" class="left-arrow" preserveAspectRatio="none" data-bbox="60 20 80 160" viewBox="60 20 80 160" height="200" width="200" xmlns="http://www.w3.org/2000/svg" data-type="shape" role="img">
-                <g>
-                    <path d="M140 58.395l-37.001-37.146a4.232 4.232 0 0 0-6.003 0L60 58.395l6.003 6.028 29.099-29.216V180h9.796V35.209l29.099 29.212L140 58.395z"></path>
-                </g>
-            </svg>
+            <button (click)="this.mesAnterior()" [disabled]="this.mesActualOffset === 0" class="btn" [ngStyle]="{'opacity': this.mesActualOffset === 0 ? .4 : 1}">
+                <svg class="left-arrow" preserveAspectRatio="none" data-bbox="60 20 80 160" viewBox="60 20 80 160" height="200" width="200" xmlns="http://www.w3.org/2000/svg" data-type="shape" role="img">
+                    <g>
+                        <path d="M140 58.395l-37.001-37.146a4.232 4.232 0 0 0-6.003 0L60 58.395l6.003 6.028 29.099-29.216V180h9.796V35.209l29.099 29.212L140 58.395z"></path>
+                    </g>
+                </svg>
+            </button>
             <span class="font-weight-bold" style="font-size: 1.5rem"> {{ this.mesActual }}</span>
-            <svg (click)="this.mesSiguiente()" class="right-arrow" preserveAspectRatio="none" data-bbox="60 20 80 160" viewBox="60 20 80 160" height="200" width="200" xmlns="http://www.w3.org/2000/svg" data-type="shape" role="img">
-                <g>
-                    <path d="M140 58.395l-37.001-37.146a4.232 4.232 0 0 0-6.003 0L60 58.395l6.003 6.028 29.099-29.216V180h9.796V35.209l29.099 29.212L140 58.395z"></path>
-                </g>
-            </svg>
+            <button (click)="this.mesSiguiente()" [disabled]="this.mesActualOffset === 3" class="btn" [ngStyle]="{'opacity': this.mesActualOffset === 3 ? .4 : 1}">
+                <svg class="right-arrow" preserveAspectRatio="none" data-bbox="60 20 80 160" viewBox="60 20 80 160" height="200" width="200" xmlns="http://www.w3.org/2000/svg" data-type="shape" role="img">
+                    <g>
+                        <path d="M140 58.395l-37.001-37.146a4.232 4.232 0 0 0-6.003 0L60 58.395l6.003 6.028 29.099-29.216V180h9.796V35.209l29.099 29.212L140 58.395z"></path>
+                    </g>
+                </svg>
+            </button>
+
         </div>
     </div>
     <div class="row">
@@ -96,9 +101,9 @@
     <div class="row">
         <div class="col-12 col-xs-6 col-sm-4 mr-auto ml-auto text-center mt-4">
             <div>
-                <span style="color: #FC6500">
+                <h5 style="color: #FC6500">
                     RESEMEN DE TU SELECCIÓN
-                </span>
+                </h5>
             </div>
             <div>
                 <span>Día: <span class="font-weight-bold">{{ this.reserva.fecha ? this.getDiaResumen() : 'No seleccionado' }}</span></span>
