@@ -9,7 +9,7 @@ import { PreloaderContainerComponent } from '../../applus-shared/preloader-conta
   styleUrls: ['./paso3.component.css']
 })
 export class Paso3Component implements OnInit{
-  
+
   @ViewChild('preloaderContainer') preloader: PreloaderContainerComponent;
 
   public reserva: Reserva;
@@ -79,7 +79,8 @@ export class Paso3Component implements OnInit{
    */
   private validar(): boolean{
     this.mensajesError = [];
-    !this.reserva.patente && this.mensajesError.push('Debe ingresar una patente.');
+    this.upperCaseFields();
+    !this.validarPatente() && this.mensajesError.push('Debe ingresar una patente válida.');
     !this.reserva.nombre && this.mensajesError.push('Debe ingresar su nombre.');
     !this.reserva.apellido && this.mensajesError.push('Debe ingresar su apellido.');
     !this.reserva.rut && this.mensajesError.push('Debe ingresar su rut.');
@@ -91,6 +92,19 @@ export class Paso3Component implements OnInit{
     this.reserva.idComuna === '-1' && this.mensajesError.push('Por favor indique su comuna.');
     this.verificarCaptcha && !this.captchaResolved && this.mensajesError.push('Debe resolver el captcha.');
     return !!!this.mensajesError.length;
+  }
+
+  private upperCaseFields(): void {
+    this.reserva.patente = this.reserva.patente ? this.reserva.patente.toUpperCase().trim() : undefined;
+    this.reserva.nombre =  this.reserva.nombre ? this.reserva.nombre.toUpperCase().trim() : undefined;
+    this.reserva.apellido =  this.reserva.apellido ? this.reserva.apellido.toUpperCase().trim() : undefined;
+    this.reserva.rut =  this.reserva.rut ? this.reserva.rut.toUpperCase().trim() : undefined;
+    this.reserva.telefono =  this.reserva.telefono ? this.reserva.telefono.toUpperCase().trim() : undefined;
+  }
+
+  private validarPatente(): boolean {
+    const regx = /^(([A-Z]{2}[0-9]{4})|([A-Z]{3}[0-9]{3})|([A-Z]{4}[0-9]{2}))$/;
+    return regx.test(this.reserva.patente);
   }
 
   public getFechaString(){
