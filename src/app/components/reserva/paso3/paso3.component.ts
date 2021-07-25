@@ -18,7 +18,7 @@ export class Paso3Component implements OnInit{
   public comoNosConocio: { id: number, descripcion: string}[] = [];
   public verificarCaptcha = false;
   private captchaResolved: any = null;
-  public controlEmail: string = '';
+  public controlEmail = '';
   public mensajesError: string[] = [];
 
 
@@ -26,7 +26,7 @@ export class Paso3Component implements OnInit{
     this.reserva = this.reservaService.reserva;
     this.reserva.idComoNosConocio = this.reserva.idComoNosConocio || '-1';
     this.reserva.idComuna = this.reserva.idComuna || '-1';
-    if(!this.reserva.fecha || !this.reserva.hora || !this.reserva.idPlanta) {
+    if (!this.reserva.fecha || !this.reserva.hora || !this.reserva.idPlanta) {
       this.reservaService.resetFlow();
     }
   }
