@@ -71,7 +71,7 @@
                 <div class="container">
                     <div class="row" *ngIf="this.verificarCaptcha">
                         <div class="col-12 text-left mt-3 pb-3">
-                            <re-captcha (resolved)="this.resolved($event)" siteKey="6Ld3vTkUAAAAACpYkssfCPqlAieFa1qMpZ6t-qYG"></re-captcha>
+                            <re-captcha (resolved)="this.resolved($event)" [siteKey]="this.captchaPublicKey"></re-captcha>
                         </div>
                     </div>
                     <div class="row">

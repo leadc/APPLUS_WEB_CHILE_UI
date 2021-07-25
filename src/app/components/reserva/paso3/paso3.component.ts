@@ -17,6 +17,7 @@ export class Paso3Component implements OnInit{
   public comunas: { id: number, descripcion: string}[] = [];
   public comoNosConocio: { id: number, descripcion: string}[] = [];
   public verificarCaptcha = false;
+  public captchaPublicKey = '';
   private captchaResolved: any = null;
   public controlEmail = '';
   public mensajesError: string[] = [];
@@ -40,6 +41,7 @@ export class Paso3Component implements OnInit{
           this.comoNosConocio = resp.comoNosConocio;
           this.comunas = resp.comunas;
           this.verificarCaptcha = resp.verificarCaptcha;
+          this.captchaPublicKey = resp.captchaPublicKey;
         },
         error: resp => {
           location.reload();
