@@ -28,8 +28,8 @@ export class ReservaService implements OnDestroy {
 
   constructor(private route: Router, private location: Location, private api: ApiService) {
     try{
-      // Subscripción al observable de la ruta 
-      // Cada vez que cambie la ruta se actualizará el valor de 
+      // Subscripción al observable de la ruta
+      // Cada vez que cambie la ruta se actualizará el valor de
       // la variable currentRoute para determinar en qué paso estamos
       this.routeSubscription = this.route.events.subscribe((event) => {
           this.currentRoute = this.location.path();
@@ -88,7 +88,6 @@ export class ReservaService implements OnDestroy {
     );
   }
 
-  
   /**
    * Obtiene los datos necesarios para el form del paso 3
    * @returns Observable de los datos necesarios para el form del paso 3
@@ -103,6 +102,11 @@ export class ReservaService implements OnDestroy {
     );
   }
 
+  /**
+   * Realiza la llamada a la API para registrar una reserva
+   * @param tokenCaptcha token del captcha
+   * @returns Devuelve el observable de la llamada
+   */
   public realizarReserva(tokenCaptcha: string){
     return this.api.post('reservas/reservar', {
       reserva: this.reserva,
@@ -126,7 +130,6 @@ export class ReservaService implements OnDestroy {
     });
   }
 
-  
   /**
    * Maneja los eventos de pasar al anterior paso de la reserva 
    */
@@ -170,11 +173,39 @@ export class ReservaService implements OnDestroy {
    */
    public getHoraString(dateObj: Date = null){
     const date = dateObj || new Date(this.reserva.fecha + ' ' + this.reserva.hora + ':00');
-    var hh = date.getHours();
-    var mm = date.getMinutes();
+    const hh = date.getHours();
+    const mm = date.getMinutes();
     return [
-        (hh>9 ? '' : '0') + hh,
-        (mm>9 ? '' : '0') + mm
+        (hh > 9 ? '' : '0') + hh,
+        (mm > 9 ? '' : '0') + mm
       ].join(':');
+  }
+
+  /**
+   * Valida el formato de una patente (que esté en mayúsculas y tenga la cantidad de letras y números en el orden correcto)
+   * @param patente Patente a validar
+   * @returns True/false según la patente sea válida o no
+   */
+  public validarPatente(patente: string): boolean {
+    const regx = /^(([A-Z]{2}[0-9]{4})|([A-Z]{3}[0-9]{3})|([A-Z]{4}[0-9]{2}))$/;
+    return regx.test(patente);
+  }
+
+  /**
+   * Realiza la llamada a la API para buscar una reserva y devuelve el observable de la misma
+   * @param patente Patente buscada
+   * @param codigo Código de reserva buscado
+   * @param captchaToken Captchatoken en caso de ser necesario
+   */
+  public localizarReserva(patente: string, codigo: string, captchaToken?: string) {
+    return this.api.get('reservas/localizar', { patente, codigo, captchaToken });
+  }
+
+  /**
+   * Realiza la llamada a la API para cancelar una reserva
+   * @param idReserva Número de la reserva que se desea cancelar
+   */
+  public cancelarReserva(id: number, patente: string, codigo: string) {
+    return this.api.delete('reservas/reserva', { patente, codigo, id });
   }
 }

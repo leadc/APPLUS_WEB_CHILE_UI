@@ -1,0 +1,47 @@
+<app-preloader-container>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="fc-orange text-center">¡Tu reserva fue localizada con éxito!</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-12 col-sm-6 col-md-4">
+                <p class="fs-0125">Nombre: <span class="font-weight-bold fs-0125">{{ this.reserva.nombre }} {{ this.reserva.apellido }}</span></p>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <p class="fs-0125">Patente: <span class="font-weight-bold fs-0125">{{ this.reserva.patente }}</span></p>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-12 col-sm-6 col-md-4">
+                <p class="fs-0125">Planta de Revisión: <span class="font-weight-bold fs-0125">{{ this.reserva.descripcionPlanta }}</span></p>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <p class="fs-0125">Dirección de planta: <span class="font-weight-bold fs-0125">{{ this.reserva.observacionPlanta }}</span></p>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-12 col-sm-6 col-md-4">
+                <p class="fs-0125">Fecha: <span class="font-weight-bold fs-0125">{{ this.getFechaReserva() }}</span></p>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <p class="fs-0125">Horario: <span class="font-weight-bold fs-0125">{{ this.reserva.hora }}</span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-left">
+                <div class="alert alert-danger mb-3" role="alert" *ngIf="this.errorsList.length" style="width: 40%; min-width: 185px; margin: auto;">
+                    <ul *ngFor="let mensaje of this.errorsList" class="pl-3 mb-0">
+                        <li>{{ mensaje }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center mb-3 mt-3">
+                <button class="button-orange" (click)="this.cancelarReserva()">CANCELAR RESERVA</button>
+            </div>
+        </div>
+    </div>
+</app-preloader-container>

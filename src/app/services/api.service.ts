@@ -25,8 +25,8 @@ export class ApiService {
     return this.httpClient.patch(environment.apiBaseRoute + route, body);
   }
 
-  public delete(route: string, body: any) {
-    return this.httpClient.delete(environment.apiBaseRoute + route, body);
+  public delete(route: string, params: any) {
+    return this.httpClient.delete(environment.apiBaseRoute + route, { params });
   }
 
 }

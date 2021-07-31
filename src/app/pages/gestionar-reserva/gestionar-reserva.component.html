@@ -1,0 +1,50 @@
+<app-banner-reserva class="d-print-none" [text]="false"></app-banner-reserva>
+<header class="title-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 py-4">
+                <span class="fc-orange fs-0150">Servicio PRT</span>
+                <h1 class="title-gestion-reserva fc-orange fs-0300 my-3">Gestión de tu reserva</h1>
+                <p class="fs-0125">Para cancelar o cambiar tu reserva, deberás proveer la información solicitada a continuación. Podrás anularla y reservar una nueva posteriormente.</p>
+            </div>
+        </div>
+    </div>
+</header>
+<app-preloader-container #localizarForm>
+    <main class="container title-container mt-4" *ngIf="!this.reserva">
+        <div class="row pt-4 pb-2">
+            <div class="col-12 text-center mb-3">
+                <input type="text" maxlength="15" [(ngModel)]="this.patente" class="form-control" placeholder="Patente" style="width: 40%; min-width: 185px; margin: auto;">
+            </div>
+            <div class="col-12 text-center mb-3">
+                <input type="text" maxlength="50" [(ngModel)]="this.codigo" class="form-control" placeholder="Código de reserva" style="width: 40%; min-width: 185px; margin: auto;">
+            </div>
+            <div class="col-12 text-left">
+                <div class="alert alert-danger mb-3" role="alert" *ngIf="this.errorsList.length" style="width: 40%; min-width: 185px; margin: auto;">
+                    <ul *ngFor="let mensaje of this.errorsList" class="pl-3 mb-0">
+                        <li>{{ mensaje }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 text-center mb-3">
+                <button class="button-orange" (click)="this.localizarReservaClick()">LOCALIZAR MI RESERVA</button>
+            </div>
+        </div>
+    </main>
+</app-preloader-container>
+<main *ngIf="this.reserva && !this.reservaCancelada" class="mt-4">
+    <app-cancelar-reserva [reserva]="this.reserva" (cancelada)="this.reservaCanceladaEvent($event)"></app-cancelar-reserva>
+</main>
+<main *ngIf="this.reservaCancelada" class="container mt-4 pt-4 pb-2">
+    <div class="row">
+        <div class="col-12 text-center mb-3">
+            <p class="fs-0150">
+                La Reserva de tu Vehículo con patente <span class="fs-0150 font-weight-bold">{{ this.reserva.patente }}</span>
+                <br><br> ¡Fue cancelada de forma correcta!
+            </p>
+        </div>
+        <div class="col-12 text-center mb-3">
+            <button class="button-orange" [routerLink]="['']">RESERVAR NUEVAMENTE</button>
+        </div>
+    </div>
+</main>

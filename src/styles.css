@@ -5,7 +5,7 @@
     padding: 0;
     margin: 0;
     font-size: 14px;
-    font-family: Helvetica, sans-serif;
+    font-family: helvetica-w01-light, helvetica-w02-light, helvetica, sans-serif;
     color: #373B4D;
 }
 
@@ -71,8 +71,16 @@
     color: #FC6500;
 }
 
+.fs-0125 {
+    font-size: 1.25rem;
+}
+
 .fs-0150 {
     font-size: 1.5rem;
+}
+
+.fs-0300 {
+    font-size: 3rem;
 }
 
 .text-underline {
