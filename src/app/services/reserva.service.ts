@@ -1,9 +1,9 @@
 import { Location } from '@angular/common';
-import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators'
-import { Reserva, DataForm1 } from '../models/reserva.model';
+import { map } from 'rxjs/operators';
+import { Reserva} from '../models/reserva.model';
 import { ApiService, ApiResponse } from './api.service';
 
 @Injectable({
@@ -35,10 +35,10 @@ export class ReservaService implements OnDestroy {
           this.currentRoute = this.location.path();
       });
       this.getReservaDesdeStorage();
-    }catch{}
+    }catch {}
   }
 
-  /** 
+  /**
    * Este método se ejecuta al destruir el objeto y se asegura que no quede activa
    * la subscripción a los cambios de ruta (para liberar memoria)
    */
@@ -47,8 +47,8 @@ export class ReservaService implements OnDestroy {
   }
 
   /**
-   * Obtengo la reserva previa desde el session storage si es que existe 
-   * Esto sirve para que si el cliente hace un refresh de la página sin cerrar el navegador 
+   * Obtengo la reserva previa desde el session storage si es que existe
+   * Esto sirve para que si el cliente hace un refresh de la página sin cerrar el navegador
    * no pierda los datos ya ingresados
    */
   private getReservaDesdeStorage() {
@@ -115,7 +115,7 @@ export class ReservaService implements OnDestroy {
   }
 
   /**
-   * Maneja los eventos de pasar al siguiente paso de la reserva 
+   * Maneja los eventos de pasar al siguiente paso de la reserva
    * guardando los datos actuales en session storage
    */
   public nextStep(){
@@ -124,20 +124,20 @@ export class ReservaService implements OnDestroy {
     sessionStorage.setItem('reserva', JSON.stringify(this.reserva));
     // Recorro cada paso para evaluar en cuál estoy y navego al siguiente (si es que hay siguiente, sino no hago nada)
     this.FLOW_STEPS.forEach((value, i) => {
-      if (value === this.currentRoute && this.FLOW_STEPS[i+1]) {
-        this.route.navigate([this.FLOW_STEPS[i+1]]);
+      if (value === this.currentRoute && this.FLOW_STEPS[i + 1]) {
+        this.route.navigate([this.FLOW_STEPS[i + 1]]);
       }
     });
   }
 
   /**
-   * Maneja los eventos de pasar al anterior paso de la reserva 
+   * Maneja los eventos de pasar al anterior paso de la reserva
    */
    public backStep(){
     // Recorro cada paso para evaluar en cuál estoy y navego al siguiente (si es que hay siguiente, sino no hago nada)
     this.FLOW_STEPS.forEach((value, i) => {
-      if (value === this.currentRoute && this.FLOW_STEPS[i-1]) {
-        this.route.navigate([this.FLOW_STEPS[i-1]]);
+      if (value === this.currentRoute && this.FLOW_STEPS[i - 1]) {
+        this.route.navigate([this.FLOW_STEPS[i - 1]]);
       }
     });
   }
@@ -148,7 +148,7 @@ export class ReservaService implements OnDestroy {
   }
 
   /**
-   * Reinicia el flujo del programa en caso de navegar a una ruta del paso 2, 3... 
+   * Reinicia el flujo del programa en caso de navegar a una ruta del paso 2, 3...
    * sin tener datos previos seleccionados
    */
   public resetFlow(){
@@ -189,6 +189,15 @@ export class ReservaService implements OnDestroy {
   public validarPatente(patente: string): boolean {
     const regx = /^(([A-Z]{2}[0-9]{4})|([A-Z]{3}[0-9]{3})|([A-Z]{4}[0-9]{2}))$/;
     return regx.test(patente);
+  }
+
+
+  /**
+   * Verifica en el backend si se debe usar captcha para esta implementación
+   * @returns Devuelve un observable de { verificarCaptcha: boolean, captchaPublicKey: string }
+   */
+  public checkCaptcha() {
+    return this.api.get('verificarCaptcha', null);
   }
 
   /**

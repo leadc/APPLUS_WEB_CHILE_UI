@@ -19,6 +19,9 @@
             <div class="col-12 text-center mb-3">
                 <input type="text" maxlength="50" [(ngModel)]="this.codigo" class="form-control" placeholder="Código de reserva" style="width: 40%; min-width: 185px; margin: auto;">
             </div>
+            <div class="col-12 d-flex justify-content-center mb-3" *ngIf="this.captchaPublicKey">
+                <re-captcha (resolved)="this.resolved($event)" [siteKey]="this.captchaPublicKey"></re-captcha>
+            </div>
             <div class="col-12 text-left">
                 <div class="alert alert-danger mb-3" role="alert" *ngIf="this.errorsList.length" style="width: 40%; min-width: 185px; margin: auto;">
                     <ul *ngFor="let mensaje of this.errorsList" class="pl-3 mb-0">

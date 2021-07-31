@@ -16,14 +16,22 @@ export class GestionarReservaComponent implements OnInit {
   public errorsList: string[] = [];
   public reserva: Reserva = null;
   public reservaCancelada = false;
+  public captchaPublicKey: string = null;
+  private captchaToken: string = null;
 
   @ViewChild('localizarForm') localizarForm: PreloaderContainerComponent;
 
-  constructor(private reservaService: ReservaService, private tknService: TokenService) { }
+  constructor(private reservaService: ReservaService, private tknService: TokenService) {
+  }
 
   ngOnInit(): void {
-    this.codigo = '13037759e09183';
-    this.patente = 'ADS123';
+    this.reservaService.checkCaptcha().subscribe({
+      next: (resp: any) => {
+        if (resp.data && resp.data.verificarCaptcha && resp.data.captchaPublicKey) {
+          this.captchaPublicKey = resp.data.captchaPublicKey;
+        }
+      }
+    });
   }
 
   /** Evento de click en localizar reserva */
@@ -36,7 +44,13 @@ export class GestionarReservaComponent implements OnInit {
       this.localizarForm.unblock();
       return;
     }
-    this.reservaService.localizarReserva(this.patente, this.codigo).subscribe({
+
+    if (this.captchaPublicKey && !this.captchaToken) {
+      this.errorsList.push('Debe validar el captcha para continuar');
+      this.localizarForm.unblock();
+      return;
+    }
+    this.reservaService.localizarReserva(this.patente, this.codigo, this.captchaToken).subscribe({
       next: (resp: any) => {
         this.reserva = resp.data;
         this.localizarForm.unblock();
@@ -61,5 +75,9 @@ export class GestionarReservaComponent implements OnInit {
       this.reservaCancelada = event;
       this.tknService.clearToken();
     }
+  }
+
+  public resolved(captcha: string) {
+    this.captchaToken = captcha;
   }
 }
