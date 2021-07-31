@@ -18,7 +18,6 @@ export class DownForMaintenanceInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((resp) => {
-        debugger
         if (resp.status === 503) {
           this.router.navigate(['/down_for_maintenance']);
         }
