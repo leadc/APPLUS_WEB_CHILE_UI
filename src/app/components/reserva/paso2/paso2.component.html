@@ -37,7 +37,7 @@
                 </svg>
             </button>
             <span class="font-weight-bold" style="font-size: 1.5rem"> {{ this.mesActual }}</span>
-            <button (click)="this.mesSiguiente()" [disabled]="this.mesActualOffset === 3" class="btn" [ngStyle]="{'opacity': this.mesActualOffset === 3 ? .4 : 1}">
+            <button (click)="this.mesSiguiente()" [disabled]="this.mesActualOffset === this.MAX_MESES" class="btn" [ngStyle]="{'opacity': this.mesActualOffset === this.MAX_MESES ? .4 : 1}">
                 <svg class="right-arrow" preserveAspectRatio="none" data-bbox="60 20 80 160" viewBox="60 20 80 160" height="200" width="200" xmlns="http://www.w3.org/2000/svg" data-type="shape" role="img">
                     <g>
                         <path d="M140 58.395l-37.001-37.146a4.232 4.232 0 0 0-6.003 0L60 58.395l6.003 6.028 29.099-29.216V180h9.796V35.209l29.099 29.212L140 58.395z"></path>

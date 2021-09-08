@@ -19,6 +19,7 @@ export class Paso2Component implements OnInit {
   public cargando = true;
   public error: string;
   public validacion: string;
+  public MAX_MESES = 6;
 
   constructor(private reservaService: ReservaService) {
     this.reserva = this.reservaService.reserva;
@@ -30,7 +31,7 @@ export class Paso2Component implements OnInit {
   ngOnInit(){
     this.solicitarDisponibilidadMes(0);
   }
-  
+
   /**
    * Solicita la disponibilidad horaria para un mes en particular y la muestra en la vista
    * @param agregarMes Numero de meses de offset a agregar
@@ -63,13 +64,16 @@ export class Paso2Component implements OnInit {
     const fechasDisponibles = this.disponibilidad.map(disp => disp.fecha);
 
     const fechaArray = this.fechaActual.split('-');
+    // tslint:disable-next-line: radix
     const primerDia = new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]) - 1, 1);
+    // tslint:disable-next-line: radix
     const ultimoDia = new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]), 0);
-    const meses = ['Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre'];
+    const meses = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    // tslint:disable-next-line: radix
     this.mesActual = meses[parseInt(fechaArray[1])];
     this.mesActual += ' ' + fechaArray[0];
     this.renderFechas = [];
-    while(ultimoDia.getTime() >= primerDia.getTime()){
+    while (ultimoDia.getTime() >= primerDia.getTime()) {
       const fechaActualString = primerDia.toISOString().split('T')[0];
       this.renderFechas.push({
         val: fechaActualString,
@@ -129,19 +133,7 @@ export class Paso2Component implements OnInit {
    * Renderiza los días del mes siguiente
    */
   public mesSiguiente(){
-    this.mesActualOffset < 3 && this.solicitarDisponibilidadMes(1);
-  }
-
-  /** Devuelve un objeto date con el último día del mes para la fecha pasada por parámetro */
-  private getUltimoDiaDelMes(fecha: Date): string{
-    const fechaArray = fecha.toISOString().split('T')[0].split('-');
-    return new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]), 0).toISOString().split('T')[0];
-  }
-
-  /** Devuelve un objeto date con el primer día del mes para la fecha pasada por parámetro */
-  private getPrimerDiaDelMes(fecha: Date): string{
-    const fechaArray = fecha.toISOString().split('T')[0].split('-');
-    return new Date(parseInt(fechaArray[0]), parseInt(fechaArray[1]) - 1, 1).toISOString().split('T')[0];
+    this.mesActualOffset < this.MAX_MESES && this.solicitarDisponibilidadMes(1);
   }
 
   /**
